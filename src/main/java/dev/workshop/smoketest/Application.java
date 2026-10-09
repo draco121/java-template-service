@@ -1,9 +1,9 @@
-package {{ cookiecutter.package_name }};
+package dev.workshop.smoketest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/** Entry point for {{ cookiecutter.service_name }}. */
+/** Entry point for Smoke Test. */
 @SpringBootApplication
 public class Application {
 

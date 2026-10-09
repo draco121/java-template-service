@@ -1,4 +1,4 @@
-package {{ cookiecutter.package_name }}.platform;
+package dev.workshop.smoketest.platform;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

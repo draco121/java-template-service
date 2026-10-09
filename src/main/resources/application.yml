@@ -2,13 +2,13 @@
 # so dashboards, alerts and log searches work the same way for every team.
 spring:
   application:
-    name: {{ cookiecutter.service_slug }}
+    name: smoke-test
   mvc:
     problemdetails:
       enabled: true # errors come back as RFC 9457 JSON, never as HTML stack traces
 
 server:
-  port: {{ cookiecutter.server_port }}
+  port: 8080
   shutdown: graceful # finish in-flight requests before stopping (safe deploys)
 
 logging:
@@ -35,4 +35,4 @@ management:
           endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
 
 info:
-  owner: {{ cookiecutter.owner_team }}
+  owner: draco121

@@ -1,4 +1,4 @@
-package {{ cookiecutter.package_name }}.api;
+package dev.workshop.smoketest.api;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,6 +20,6 @@ public class GreetingController {
   public Greeting greet(
       @RequestParam(defaultValue = "world") @NotBlank @Size(max = 40) String name) {
     log.info("Greeting requested for {}", name);
-    return new Greeting("Hello, " + name + "!", "{{ cookiecutter.service_slug }}");
+    return new Greeting("Hello, " + name + "!", "smoke-test");
   }
 }

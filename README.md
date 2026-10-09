@@ -1,62 +1,33 @@
-# java-template-service
+# Smoke Test
 
-**The golden path for a new Java microservice.** One click gives you a Spring Boot 4 service with
-structured logs, tracing, metrics, health checks, clean error responses, enforced formatting, a
-Dockerfile, and a CI pipeline that runs the platform's security gate. You write the feature;
-the plumbing is already done.
+A microservice generated from the platform golden path.
 
-Part of the [Platform Engineering Workshop](https://github.com/draco121/platform-engineering-workshop) (Lab 2).
+Owned by **draco121**. Generated from the platform golden path:
+[java-template-service](https://github.com/draco121/java-template-service).
 
-## Option 1: click "Use this template" (recommended)
-
-1. Click the green **Use this template** button at the top of this page → **Create a new repository**.
-2. Name it after your service, for example `coupon-service`. Public or private both work.
-3. Open the new repository's **Actions** tab and watch:
-   - **bootstrap** fills in this template with your repository's name (`Coupon Service`,
-     package `dev.workshop.couponservice`, owner = your GitHub user) and commits the result.
-   - **ci** then builds and tests the service, checks formatting, and runs the platform's
-     **security gate** against every library the service ships.
-4. About three minutes later: a personalised, tested, security-checked service with a green check mark.
-
-### How it works
-
-GitHub template repositories copy files exactly as they are: they can't fill in names.
-[Cookiecutter](https://github.com/cookiecutter/cookiecutter) can. This repository combines both:
-
-```
- "Use this template"  →  new repo (a copy of this one)
-         ↓  push of the first commit starts .github/workflows/bootstrap.yml
- cookiecutter template/ with the repo's name  →  commit "Bootstrap Coupon Service"
-         ↓  bootstrap starts .github/workflows/ci.yml
- build + tests + formatting  →  platform security gate (central, owned by the platform team)  →  ✅
-```
-
-The security gate isn't copied into your repo. Your `ci.yml` *calls* the platform team's
-[central workflow](https://github.com/draco121/platform-engineering-workshop/blob/main/.github/workflows/platform-gates.yml),
-so when the platform changes a rule, every service picks it up on its next run.
-
-## Option 2: the Cookiecutter command line
+## Run it
 
 ```bash
-pip install cookiecutter
-cookiecutter gh:draco121/java-template-service --directory template
+mvn spring-boot:run
+curl localhost:8080/actuator/health
+curl "localhost:8080/api/greeting?name=you"
 ```
 
-Answer the questions, then `cd` into the new folder and `mvn spring-boot:run`.
+## What you got for free
 
-## What's in the template
+| Concern | Where | What it does |
+|---|---|---|
+| Structured logs | `application.yml` → `logging.structured` | Every log line is JSON, searchable by `requestId` and `traceId` |
+| Request ids | `platform/RequestIdFilter.java` | Every response carries `X-Request-Id` |
+| Tracing | `spring-boot-starter-opentelemetry` | Sends traces to `OTEL_EXPORTER_OTLP_ENDPOINT` |
+| Metrics | `/actuator/prometheus` | Request counts, latencies, JVM stats |
+| Health checks | `/actuator/health/liveness`, `/readiness` | Ready for Kubernetes probes |
+| Error format | `spring.mvc.problemdetails` | Errors are JSON (RFC 9457), never stack traces |
+| Formatting | Spotless + google-java-format | `mvn verify` fails on bad formatting, `mvn spotless:apply` fixes it |
+| CI + security gate | `.github/workflows/ci.yml` | Build, test, formatting, then the platform's central security gate |
+| Catalog entry | `catalog-info.yaml` | Shows up in the developer portal with its owner |
+| Container | `Dockerfile` | Small, non-root image with a health check |
 
-| Path | What it is |
-|---|---|
-| `template/cookiecutter.json` | The questions and their defaults |
-| `template/hooks/` | Checks your answers before generating; tidies up after |
-| `template/{{cookiecutter.service_slug}}/` | The service itself, with `{{ placeholders }}` |
-| `.github/workflows/bootstrap.yml` | Turns a fresh copy into your service (runs once) |
-| `.github/workflows/ci.yml` | Build, test, formatting, then the central security gate |
+## Write your feature
 
-## For the platform team: maintaining this template
-
-- Keep this repository marked as a template: **Settings → General → Template repository**.
-- `.github/workflows/ci.yml` must stay identical to `template/{{cookiecutter.service_slug}}/.github/workflows/ci.yml`.
-- Changes here only reach **new** services. Existing services don't update automatically: that's
-  "template drift", one of the open problems discussed in the workshop.
+Add your code under `src/main/java/dev/workshop/smoketest/`. Everything above keeps working.

@@ -3,10 +3,10 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: {{ cookiecutter.service_slug }}
-  description: "{{ cookiecutter.description | replace('"', "'") }}"
+  name: smoke-test
+  description: "A microservice generated from the platform golden path."
   tags: [java, spring-boot, golden-path]
 spec:
   type: service
   lifecycle: experimental
-  owner: {{ cookiecutter.owner_team }}
+  owner: draco121

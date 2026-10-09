@@ -1,6 +1,7 @@
-package {{ cookiecutter.package_name }}.api;
+package dev.workshop.smoketest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,23 +11,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
+/** Platform smoke tests: if these fail, the golden path itself is broken. */
 @SpringBootTest
 @AutoConfigureMockMvc
-class GreetingControllerTests {
+class ApplicationTests {
 
   @Autowired private MockMvc mvc;
 
   @Test
-  void greetsByName() throws Exception {
-    mvc.perform(get("/api/greeting").param("name", "Platform"))
+  void healthEndpointIsUp() throws Exception {
+    mvc.perform(get("/actuator/health"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.message").value("Hello, Platform!"));
+        .andExpect(jsonPath("$.status").value("UP"));
   }
 
   @Test
-  void rejectsBadInputWithProblemDetails() throws Exception {
-    mvc.perform(get("/api/greeting").param("name", " "))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.status").value(400));
+  void everyResponseCarriesARequestId() throws Exception {
+    mvc.perform(get("/actuator/health")).andExpect(header().exists("X-Request-Id"));
+  }
+
+  @Test
+  void prometheusMetricsAreExposed() throws Exception {
+    mvc.perform(get("/actuator/prometheus")).andExpect(status().isOk());
   }
 }

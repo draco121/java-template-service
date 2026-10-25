@@ -27,7 +27,7 @@
 
     <!-- PLATFORM SECURITY PATCHES (Oct 2026). Spring Boot 4.1.1 ships Tomcat 11.0.24 and
          Jackson 3.1.5, which the security gate blocks. The platform team bumps them here
-         once, and every new service is born green. Remove them in Lab 2 to see why. -->
+         once, and every new service is born green. Remove them in Lab 1 (Mission 1.6) to see why. -->
     <tomcat.version>11.0.26</tomcat.version>
     <jackson-bom.version>3.1.7</jackson-bom.version>
   </properties>

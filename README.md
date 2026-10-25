@@ -5,7 +5,7 @@ structured logs, tracing, metrics, health checks, clean error responses, enforce
 Dockerfile, and a CI pipeline that runs the platform's security gate. You write the feature;
 the plumbing is already done.
 
-Part of the [Platform Engineering Workshop](https://github.com/draco121/platform-engineering-workshop) (Lab 2).
+Part of the [Platform Engineering Workshop](https://github.com/draco121/platform-engineering-workshop) (Lab 1).
 
 ## Option 1: click "Use this template" (recommended)
 
